@@ -12,7 +12,15 @@ import java.io.IOException;
 
 /**
  * Created with IntelliJ IDEA.
- * Description:
+ * Description: 当 form 表单中要提交 input[type = file] 的输入时, 必须把 enctype 修改为 multipart/form-data
+ *              目的是让浏览器发起请求时, 可以在网络中把文件内容传递给服务端!
+ *
+ * 要正确处理文件上传:
+ * 1. 浏览器这边, 注意 form 表单的 enctype
+ * 2. 服务端这边:
+ *    1. 加注解 @MultipartConfig
+ *    2. 通过 Part 中的 inputStream 进行数据的读取 (字节流)
+ *
  * User: HHH.Y
  * Date: 2020-07-13
  */
@@ -36,7 +44,7 @@ public class PublishHtmlServlet extends HttpServlet {
                 "    <title>我的博客系统系统 | 发表文章</title>\n" +
                 "</head>\n" +
                 "<body>\n" +
-                "    <form method=\"post\" action=\"publish\">\n" +
+                "    <form method=\"post\" action=\"publish\" enctype = \"multipart/form-data\">\n" +
                 "        <div>\n" +
                 "            <label for = \"title\">标题</label>\n" +
                 "            <input type=\"text\" id = \"title\" name = \"title\">\n" +
@@ -45,6 +53,10 @@ public class PublishHtmlServlet extends HttpServlet {
                 "        <div>\n" +
                 "            <label for = \"content\">正文</label>\n" +
                 "            <textarea id = \"content\" name = \"content\"></textarea>\n" +
+                "        </div>\n" +
+                "        <div>\n" +
+                "            <label for=\"image\">图片</label>\n" +
+                "            <input type = \"file\" id=\"image\" name=\"image\">" +
                 "        </div>\n" +
                 "\n" +
                 "        <div>\n" +
